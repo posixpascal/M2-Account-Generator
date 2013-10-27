@@ -18,7 +18,10 @@
 		dataJson = JSON.parse(dataJson);
 		window.$mainAccount = dataJson.main;
 		window.$mainPassword = dataJson.password;
+		window.$mail = dataJson.mail;
 		$(".main").val(dataJson.main);
+		$(".email").html($mail);
+		$(".emailField").html($mail);
 		$(".password").val(dataJson.password);
 	}
 	
@@ -62,35 +65,36 @@
 		$fs.writeFileSync("index.cj", "100");
 	}
 	window.getSettings();
-	$(".emailField").html("Connecting...");
-	window.$mailCheck = setInterval(function(){
-	
-		$request.post({ url: "http://trashmail.ws/", form: {getemail: "E-Mail-Adresse erstellen"}}, function(err, r, b){
-			$request.get({ url: "http://trashmail.ws"}, function(err, r, b){
-				
-				window.$mail = b.split('<input type="text" name="mail" value="')[1].split('"')[0];
-				$(".emailField").html($mail);
-				
-				if (b.indexOf("Metin2 - Deine Anmeldung") > -1){
-					$(".statusBar").slideDown();
-					$(".statusBar span").html("Activating Metin2 Account.. Please wait");
-					var link = b.split('<td rowspan="3"><a href="')[1].split('"')[0];
-					$request.get({ url: "http://trashmail.ws/" + link}, function(err, r, b){
-						window.$r = r;
-						$(".statusBar span").html("Connecting to Metin2.de Server...");
-						l = b.split("gameforge.com/user/authenticated/")[1].split('"')[0];
-						l = "http://de.metin2.gameforge.com/user/authenticated/" + l;
-						$request.get({ url: l}, function(err, r, b){
-							$(".statusBar").slideUp();
-							alert("Account activated!");
-							dropMail();
-						});
-					});
-				}
-			})
-			
-		})
-	}, 3000)
+	$(".emailField").html($mail);
+	// $(".emailField").html("Connecting...");
+// 	window.$mailCheck = setInterval(function(){
+// 	
+// 		$request.post({ url: "http://trashmail.ws/", form: {getemail: "E-Mail-Adresse erstellen"}}, function(err, r, b){
+// 			$request.get({ url: "http://trashmail.ws"}, function(err, r, b){
+// 				
+// 				window.$mail = b.split('<input type="text" name="mail" value="')[1].split('"')[0];
+// 				$(".emailField").html($mail);
+// 				
+// 				if (b.indexOf("Metin2 - Deine Anmeldung") > -1){
+// 					$(".statusBar").slideDown();
+// 					$(".statusBar span").html("Activating Metin2 Account.. Please wait");
+// 					var link = b.split('<td rowspan="3"><a href="')[1].split('"')[0];
+// 					$request.get({ url: "http://trashmail.ws/" + link}, function(err, r, b){
+// 						window.$r = r;
+// 						$(".statusBar span").html("Connecting to Metin2.de Server...");
+// 						l = b.split("gameforge.com/user/authenticated/")[1].split('"')[0];
+// 						l = "http://de.metin2.gameforge.com/user/authenticated/" + l;
+// 						$request.get({ url: l}, function(err, r, b){
+// 							$(".statusBar").slideUp();
+// 							alert("Account activated!");
+// 							dropMail();
+// 						});
+// 					});
+// 				}
+// 			})
+// 			
+// 		})
+// 	}, 3000)
 	window.dropMail = function(){
 			$request.post({ url: "http://trashmail.ws", form: {ditchemail: "E-Mail-Adresse wegwerfen"}}, function(e, r, b){
 				$(".emailField").html("Waiting for new Mail");
@@ -188,8 +192,11 @@
 				});
 				captchaPipe.pipe($fs.createWriteStream("captcha.png"));
 			} else if (response.headers.location.indexOf("authenticated") > -1){
-				$(".status").html("Waiting for mail to hit: " + $mail);
-				
+				//$(".status").html("Waiting for mail to hit: " + $mail);
+				if ($mail.indexOf("trashmail") == -1){
+					alert("Account erstellt. Bitte E-Mail best&auml;tigen");
+					reset();
+				}
 				
 			}
 		});
@@ -226,6 +233,7 @@
 		var d = {};
 		d.main = $(".main").val();
 		d.password = $(".password").val();
+		d.mail = $(".email").val();
 		$fs.writeFileSync("data.json", JSON.stringify(d));
 		alert("Gespeichert!");
 	});
