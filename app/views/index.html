@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>M2 Account Generator</title>
+
+	<link rel="stylesheet" href="../css/bootstrap.css" />
+	<link rel="stylesheet" href="../css/font-awesome.min.css" />
+	<link rel="stylesheet" href="../css/main.css" />
+</head>
+<body>
+
+    <div id="wrapper">
+      
+      <!-- Sidebar -->
+      <div id="sidebar-wrapper">
+        <ul class="sidebar-nav">
+          <li class="sidebar-brand"><a data-view='index' href="#">Hauptmenu</a></li>
+          <li><a data-view='accounts' href="#">Account Verlauf</a></li>
+          <li><a data-view='mails' href="#">E-Mails</a></li>
+          <li><a data-view='settings' href="#">Einstellungen</a></li>
+		  <li><a href="#" class="emailField">.. Hole 10 MinuteMail ..</a></li>
+        </ul>
+	</div>
+       
+	<div style="display:none;padding: 10%" class="statusBar">
+		<span></span>
+		<div class="progress progress-striped active">
+		  <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+		    <span class="sr-only status">Waiting..</span>
+		  </div>
+		</div>
+	</div>
+
+	  <!-- Page content -->
+	  <div style="display:none; padding: 10%; text-align: center" class="captchaField">
+		  <img src="">
+		  <br/><br/>
+		  <input type="text" class="form-control captchaInput" placeholder="Captcha Code.">
+		  <hr/>
+		  <a href="#" class="btn btn-block btn-info submitCaptcha">Mach hinne, kack Programm &raquo;</a>
+	  </div>
+		  
+	  <div id="page-content-wrapper">
+	    <div class="content-header">
+	      <h1>
+	        <a id="menu-toggle" href="#" class="btn btn-default"><i class="fa fa-reorder"></i></a>
+	        Metin2 Account Generator
+	      </h1>
+	    </div>
+	    <!-- Keep all page content within the page-content inset div! -->
+	    <div class="page-content inset" data-view-container data-default-view='index'></div>
+	</div>
+</div>
+
+	
+	<script src="../js/vendors/jquery.js"></script>
+	<script src="../js/vendors/bootstrap.js"></script>
+	<script src="../js/index.js"></script>
+</body>
+</html>
